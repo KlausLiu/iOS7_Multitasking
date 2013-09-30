@@ -189,7 +189,6 @@ static KiOS7Downloader *instance = nil;
 
 - (void) URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session NS_AVAILABLE_IOS(7_0)
 {
-    
     KBasicBlock block = ((KAppDelegate *)[UIApplication sharedApplication].delegate).backgroundDownloadCompletionHandler;
     if (block) {
         block();
@@ -209,8 +208,7 @@ static KiOS7Downloader *instance = nil;
             // 当用户关闭应用之后，下次进入app，会有resumeData，记录下来，用来断点续传
             KDownloadInfo *di = [self downloadInfoWithTaskIdentifier:task.taskIdentifier];
             if (di) {
-                NSData *resumeData = [error.userInfo objectForKey:NSURLSessionDownloadTaskResumeData];
-                di.resumeData = resumeData;
+                di.resumeData = [error.userInfo objectForKey:NSURLSessionDownloadTaskResumeData];
             }
         }
     }
